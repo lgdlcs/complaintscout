@@ -211,6 +211,36 @@ h2 em{color:var(--red);font-style:italic}
 .price-box .guarantee{margin-top:22px;font-size:.82rem;color:var(--ink-soft);border-top:1.5px dashed var(--rule);padding-top:20px;text-align:left}
 .price-box .guarantee b{color:var(--ink)}
 
+/* ============ founding campaign ============ */
+.campaign{border-top:2px solid var(--ink)}
+.goal-box{border:2px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 var(--red);padding:30px 34px;margin-bottom:46px}
+.goal-row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.goal-amount{font-family:var(--serif);font-size:2.4rem;font-weight:800;color:var(--red);line-height:1}
+.goal-amount small{font-family:var(--mono);font-size:.85rem;font-weight:400;color:var(--ink-soft)}
+.goal-meta{font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-soft)}
+.goal-meta b{color:var(--ink)}
+.goal-track{height:18px;border:2px solid var(--ink);background:var(--paper-dark);position:relative;overflow:hidden}
+.goal-fill{position:absolute;inset:0;width:var(--pct,2%);min-width:6px;background:repeating-linear-gradient(-45deg,var(--red),var(--red) 8px,var(--red-dark) 8px,var(--red-dark) 16px)}
+.goal-note{margin-top:14px;font-size:.82rem;color:var(--ink-soft)}
+.goal-note b{color:var(--ink)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.tier{border:2px solid var(--ink);background:var(--paper);padding:30px 26px 28px;display:flex;flex-direction:column;position:relative;transition:transform .15s,box-shadow .15s}
+.tier:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.tier.hot{background:var(--paper-dark);box-shadow:8px 8px 0 var(--red)}
+.tier-flag{position:absolute;top:-13px;left:22px;background:var(--red);color:var(--paper);font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;padding:4px 12px;border:1.5px solid var(--ink)}
+.tier h3{font-family:var(--serif);font-size:1.3rem;font-weight:680;letter-spacing:-.01em}
+.tier .tier-price{font-family:var(--serif);font-size:2.6rem;font-weight:800;color:var(--red);line-height:1.1;margin:10px 0 4px}
+.tier .tier-price s{font-size:1.1rem;color:var(--ink-soft);font-weight:400;margin-left:8px}
+.tier .tier-spots{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-soft);margin-bottom:16px}
+.tier ul{list-style:none;flex:1;margin-bottom:22px}
+.tier ul li{padding:9px 0 9px 26px;border-bottom:1.5px dashed var(--rule);font-size:.85rem;position:relative}
+.tier ul li::before{content:"✓";position:absolute;left:2px;color:var(--red);font-weight:700}
+.tier ul li b{color:var(--ink)}
+.tier .btn{text-align:center}
+.pledge-how{margin-top:44px;border:1.5px dashed var(--ink);padding:24px 28px;font-size:.88rem;color:var(--ink-soft);max-width:760px}
+.pledge-how b{color:var(--ink)}
+.pledge-how .no-card{color:var(--red);font-weight:600}
+
 /* ============ order form ============ */
 .order{background:var(--paper-dark);border-top:2px solid var(--ink)}
 form{max-width:640px}
@@ -225,6 +255,12 @@ input,textarea{
 input:focus,textarea:focus{box-shadow:4px 4px 0 var(--red)}
 textarea{min-height:110px;resize:vertical}
 .form-note{font-size:.8rem;color:var(--ink-soft);margin:30px 0;border-left:3px solid var(--red);padding-left:14px}
+.tier-pick{display:grid;gap:10px}
+.tier-pick label{display:flex;align-items:baseline;gap:12px;border:2px solid var(--ink);background:var(--paper);padding:13px 16px;cursor:pointer;font-size:.85rem;text-transform:none;letter-spacing:0;font-weight:400;margin:0;transition:box-shadow .15s}
+.tier-pick label:has(input:checked){box-shadow:4px 4px 0 var(--red);background:var(--paper-dark)}
+.tier-pick input{width:auto;accent-color:var(--red)}
+.tier-pick .tp-name{font-weight:600}
+.tier-pick .tp-price{color:var(--red);font-weight:600;margin-left:auto;white-space:nowrap}
 .faq{margin-top:70px;border-top:2px solid var(--ink);padding-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:34px 50px}
 .faq h4{font-family:var(--serif);font-size:1.05rem;font-weight:640;margin-bottom:8px}
 .faq p{font-size:.85rem;color:var(--ink-soft)}
@@ -242,6 +278,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
   .step{border-right:none;border-bottom:2px solid var(--ink)}
   .step:last-child{border-bottom:none}
   .insight-grid,.offer-grid,.faq{grid-template-columns:1fr}
+  .tiers{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -250,7 +287,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
 <header>
   <div class="wrap bar">
     <a class="logo" href="#">Complaint<span class="dot">Scout</span><span class="dot">.</span></a>
-    <div class="bar-meta">25 warm leads · <b>$19</b> · 48h</div>
+    <div class="bar-meta">25 warm leads · <b>$19</b> · 48h · <a href="#back" style="color:var(--red)">founding campaign live</a></div>
   </div>
 </header>
 
@@ -261,6 +298,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
   <p class="lede">Somewhere on Reddit, X and Hacker News, real people are publicly venting about the exact problem your SaaS solves. We find <b>25 of them from the last 90 days</b> and write you a first-draft DM for each. No ads budget. No "build an audience for 2 years". Just warm doors to knock on.</p>
   <div class="hero-cta">
     <a class="btn" href="#order">Get my 25 leads →</a>
+    <a class="btn btn-ghost" href="#back">Back the launch — founder terms</a>
     <a class="btn btn-ghost" href="https://github.com/lgdlcs/complaintscout/blob/master/sample-report.md">See a real sample report</a>
   </div>
 </section>
@@ -357,12 +395,85 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
   </div>
 </section>
 
+<section class="campaign wrap" id="back">
+  <div class="sec-label reveal">Back the launch · ends June 24</div>
+  <h2 class="reveal">Fund the self-serve version. <em>Lock founder prices for life.</em></h2>
+  <p class="reveal" style="max-width:62ch;color:var(--ink-soft);margin:-10px 0 40px;font-size:.95rem">
+    Today every report is hand-researched. We're building the <b style="color:var(--ink)">self-serve ComplaintScout</b>:
+    paste your pain point, get your 25 leads — same human-grade scoring, minutes instead of 48h.
+    Like a Kickstarter, <b style="color:var(--ink)">early backers fund the build</b> and get terms nobody will ever see again.
+  </p>
+
+  <div class="goal-box reveal">
+    <div class="goal-row">
+      <div class="goal-amount">$0 <small>pledged of $500 goal</small></div>
+      <div class="goal-meta"><b>0 backers</b> · campaign just opened · ends <b>June 24, 2026</b></div>
+    </div>
+    <div class="goal-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="500"><div class="goal-fill"></div></div>
+    <p class="goal-note"><b>All-or-nothing:</b> pledging costs $0 today. If the goal isn't reached by June 24, every pledge dissolves and nobody pays a cent.</p>
+  </div>
+
+  <div class="tiers reveal">
+    <div class="tier">
+      <h3>Early Scout</h3>
+      <div class="tier-price">$19</div>
+      <div class="tier-spots">unlimited</div>
+      <ul>
+        <li><b>1 report</b> — 25 leads + DM drafts, 48h</li>
+        <li><b>Founder price locked for life</b>, even after public pricing goes up</li>
+        <li>Founding-backer badge on the wall</li>
+      </ul>
+      <a class="btn btn-ghost" href="#order" data-tier="early-scout">Pledge $19 →</a>
+    </div>
+    <div class="tier hot">
+      <span class="tier-flag">Best deal</span>
+      <h3>Founding Backer</h3>
+      <div class="tier-price">$49 <s>$76</s></div>
+      <div class="tier-spots">20 spots only</div>
+      <ul>
+        <li><b>4 reports</b> — use them anytime, any pain point</li>
+        <li><b>24h priority delivery</b> instead of 48h</li>
+        <li><b>Lifetime 35% off</b> everything we ever ship</li>
+        <li>Name on the founding backers wall</li>
+      </ul>
+      <a class="btn" href="#order" data-tier="founding-backer">Pledge $49 →</a>
+    </div>
+    <div class="tier">
+      <h3>Launch Partner</h3>
+      <div class="tier-price">$129</div>
+      <div class="tier-spots">8 spots only</div>
+      <ul>
+        <li>Everything in Founding Backer</li>
+        <li><b>Lifetime access to the self-serve SaaS</b> when it ships — no subscription, ever</li>
+        <li><b>1 fresh report every month</b> until the SaaS launches</li>
+        <li>Roadmap vote: you pick what we automate first</li>
+      </ul>
+      <a class="btn btn-ghost" href="#order" data-tier="launch-partner">Pledge $129 →</a>
+    </div>
+  </div>
+
+  <div class="pledge-how reveal">
+    <b>How pledging works.</b> <span class="no-card">No card, no payment today.</span>
+    Pick a tier, leave your email below. We start delivering your reports right away under our
+    pay-only-if-useful rule. When the campaign hits <b>$500</b>, you get your payment link.
+    If it never does, you owe nothing — and you keep what we already sent you.
+  </div>
+</section>
+
 <section class="order" id="order">
   <div class="wrap">
     <div class="sec-label reveal">Order</div>
     <h2 class="reveal">Tell us what makes your users <em>angry.</em></h2>
     <form action="https://formspree.io/f/xnjrlebb" method="POST" class="reveal">
-      <input type="hidden" name="_subject" value="[ComplaintScout] Nouvelle commande">
+      <input type="hidden" name="_subject" value="[ComplaintScout] Nouvelle commande / pledge">
+      <div class="field">
+        <label>Your pledge <span class="req">*</span></label>
+        <div class="tier-pick">
+          <label><input type="radio" name="tier" value="early-scout-19" required> <span class="tp-name">Early Scout</span> — 1 report, price locked for life <span class="tp-price">$19</span></label>
+          <label><input type="radio" name="tier" value="founding-backer-49" checked> <span class="tp-name">Founding Backer</span> — 4 reports, 24h delivery, 35% off for life <span class="tp-price">$49</span></label>
+          <label><input type="radio" name="tier" value="launch-partner-129"> <span class="tp-name">Launch Partner</span> — + lifetime SaaS access, monthly report <span class="tp-price">$129</span></label>
+        </div>
+      </div>
       <div class="field">
         <label for="email">Your email <span class="req">*</span></label>
         <input type="email" id="email" name="email" required placeholder="founder@yoursaas.com">
@@ -379,8 +490,8 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
         <label for="notes">Anything else? (ICP, channels you tried, tone for the DMs)</label>
         <textarea id="notes" name="notes" placeholder="optional"></textarea>
       </div>
-      <p class="form-note">No payment now. You'll get the full report within 48h with a $19 payment link - pay only if at least 20 of the 25 leads feel relevant to you.</p>
-      <button class="btn" type="submit">Send my order →</button>
+      <p class="form-note">No payment now — this is a pledge. We start on your first report right away (pay only if at least 20 of the 25 leads feel relevant). Your tier is charged only when the campaign hits its $500 goal.</p>
+      <button class="btn" type="submit">Pledge — $0 today →</button>
     </form>
 
     <div class="faq">
@@ -414,6 +525,10 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
 <script>
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('[data-tier]').forEach(a=>a.addEventListener('click',()=>{
+  const r=document.querySelector(`input[name="tier"][value^="${a.dataset.tier}"]`);
+  if(r)r.checked=true;
+}));
 </script>
 </body>
 </html>
