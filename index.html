@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ComplaintScout — Your first customers are already complaining</title>
+<meta name="description" content="We find 25 people who publicly complained about the exact problem your SaaS solves (Reddit, X, Hacker News, last 90 days) and draft a DM for each. $19, delivered in 48h.">
+<link rel="canonical" href="https://lgdlcs.github.io/complaintscout/">
+<meta property="og:title" content="ComplaintScout — Your first customers are already complaining">
+<meta property="og:description" content="25 warm leads who publicly complained about the problem your SaaS solves + a DM draft for each. $19, 48h.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lgdlcs.github.io/complaintscout/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ComplaintScout — find the people already asking for your product">
+<meta name="twitter:description" content="25 warm leads + DM drafts. $19, 48h.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "ComplaintScout",
+  "description": "Lead research service: 25 people who publicly complained about the problem your SaaS solves, with a DM draft for each.",
+  "provider": { "@type": "Organization", "name": "Alt-Tab Studio" },
+  "offers": { "@type": "Offer", "price": "19", "priceCurrency": "USD" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e5;
+  --paper-dark:#ede5d2;
+  --ink:#1a1713;
+  --ink-soft:#4f463a;
+  --red:#d93a00;          /* reddit orangered, our only accent */
+  --red-dark:#a82c00;
+  --rule:#c9bda3;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --serif:'Fraunces',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+::selection{background:var(--red);color:var(--paper)}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:15px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* paper grain */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+a{color:var(--red);text-decoration-thickness:1.5px;text-underline-offset:3px}
+a:hover{color:var(--red-dark)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+/* ============ top bar ============ */
+header{
+  border-bottom:2px solid var(--ink);
+  position:relative;z-index:2;
+}
+.bar{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0}
+.logo{font-family:var(--serif);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+.logo .dot{color:var(--red)}
+.bar-meta{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft)}
+.bar-meta b{color:var(--red)}
+
+/* ============ hero ============ */
+.hero{padding:84px 0 64px;position:relative}
+.kicker{
+  display:inline-block;font-size:.75rem;text-transform:uppercase;letter-spacing:.18em;
+  border:1.5px solid var(--ink);padding:5px 12px;margin-bottom:30px;
+  animation:rise .7s .05s cubic-bezier(.2,.7,.2,1) both;
+}
+.kicker em{color:var(--red);font-style:normal}
+h1{
+  font-family:var(--serif);
+  font-size:clamp(2.6rem,7.2vw,5.4rem);
+  font-weight:560;
+  font-variation-settings:"opsz" 144;
+  line-height:1.02;
+  letter-spacing:-.025em;
+  max-width:13ch;
+  animation:rise .7s .15s cubic-bezier(.2,.7,.2,1) both;
+}
+h1 .flame{color:var(--red);font-style:italic;font-weight:640}
+.hero p.lede{
+  margin-top:30px;max-width:54ch;color:var(--ink-soft);font-size:1rem;
+  animation:rise .7s .3s cubic-bezier(.2,.7,.2,1) both;
+}
+.hero p.lede b{color:var(--ink)}
+.hero-cta{margin-top:38px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+  animation:rise .7s .45s cubic-bezier(.2,.7,.2,1) both;}
+.btn{
+  display:inline-block;font-family:var(--mono);font-weight:600;font-size:.95rem;
+  background:var(--red);color:var(--paper);text-decoration:none;
+  padding:15px 30px;border:2px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);color:var(--paper)}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:none;border-width:1.5px}
+.btn-ghost:hover{box-shadow:4px 4px 0 var(--ink);color:var(--ink)}
+/* price stamp */
+.stamp{
+  position:absolute;top:70px;right:0;
+  font-family:var(--serif);font-weight:800;font-size:2rem;color:var(--red);
+  border:3px solid var(--red);border-radius:50%;
+  width:128px;height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:rotate(9deg);line-height:1;gap:4px;
+  animation:stampIn .5s .7s cubic-bezier(.34,1.56,.64,1) both;
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='r'%3E%3CfeTurbulence baseFrequency='.6' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .92 .08'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23r)'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='r'%3E%3CfeTurbulence baseFrequency='.6' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .92 .08'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23r)'/%3E%3C/svg%3E");
+}
+.stamp small{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes stampIn{from{opacity:0;transform:rotate(9deg) scale(1.6)}to{opacity:1;transform:rotate(9deg) scale(1)}}
+
+/* ============ complaint ticker ============ */
+.ticker{
+  border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  background:var(--ink);color:var(--paper);
+  overflow:hidden;white-space:nowrap;padding:11px 0;font-size:.85rem;
+}
+.ticker-track{display:inline-block;animation:scroll 55s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker span{margin-right:56px}
+.ticker .src{color:var(--red);font-weight:600}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ sections ============ */
+section{padding:84px 0;position:relative}
+.sec-label{
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.2em;color:var(--red);
+  font-weight:600;margin-bottom:18px;
+}
+.sec-label::before{content:"§ ";color:var(--ink)}
+h2{
+  font-family:var(--serif);font-weight:560;font-size:clamp(1.7rem,3.6vw,2.6rem);
+  letter-spacing:-.02em;line-height:1.1;max-width:24ch;margin-bottom:34px;
+}
+h2 em{color:var(--red);font-style:italic}
+
+/* the insight — pull quote */
+.pull{
+  border-left:5px solid var(--red);
+  padding:8px 0 8px 30px;margin:0;
+  font-family:var(--serif);font-size:clamp(1.25rem,2.6vw,1.7rem);font-weight:480;
+  font-style:italic;line-height:1.35;max-width:34ch;letter-spacing:-.01em;
+}
+.pull-cite{display:block;margin-top:18px;font-family:var(--mono);font-style:normal;font-size:.8rem;color:var(--ink-soft)}
+.insight-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:start}
+.insight-side{font-size:.92rem;color:var(--ink-soft);border-top:2px solid var(--ink);padding-top:22px}
+.insight-side b{color:var(--ink)}
+.insight-side .big{font-family:var(--serif);font-size:3.4rem;font-weight:700;color:var(--red);line-height:1;display:block;margin:6px 0 8px}
+
+/* how it works */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);background:var(--paper-dark)}
+.step{padding:34px 28px 40px;border-right:2px solid var(--ink);position:relative;transition:background .2s}
+.step:last-child{border-right:none}
+.step:hover{background:var(--paper)}
+.step-no{
+  font-family:var(--serif);font-size:3rem;font-weight:800;color:transparent;
+  -webkit-text-stroke:1.5px var(--red);line-height:1;display:block;margin-bottom:18px;
+}
+.step h3{font-family:var(--serif);font-size:1.25rem;font-weight:640;margin-bottom:10px;letter-spacing:-.01em}
+.step p{font-size:.88rem;color:var(--ink-soft)}
+.step p b{color:var(--ink)}
+
+/* sample lead card */
+.sample{background:var(--ink);color:var(--paper)}
+.sample .sec-label::before{color:var(--paper)}
+.sample h2{color:var(--paper)}
+.lead-card{
+  background:var(--paper);color:var(--ink);
+  border:2px solid var(--ink);box-shadow:8px 8px 0 var(--red);
+  padding:30px 34px;max-width:680px;margin-top:8px;
+  transform:rotate(-.6deg);
+}
+.lead-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;border-bottom:1.5px dashed var(--rule);padding-bottom:14px;margin-bottom:16px}
+.lead-user{font-weight:600}
+.lead-sig{color:var(--red);letter-spacing:.1em;font-size:.8rem;font-weight:600}
+.lead-quote{font-family:var(--serif);font-style:italic;font-size:1.12rem;line-height:1.45;margin-bottom:18px}
+.lead-dm{background:var(--paper-dark);border:1.5px solid var(--rule);padding:16px 18px;font-size:.84rem}
+.lead-dm .dm-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.16em;color:var(--red);font-weight:600;display:block;margin-bottom:8px}
+.sample-link{margin-top:30px;font-size:.9rem}
+.sample-link a{color:var(--paper);text-decoration-color:var(--red)}
+
+/* what you get / pricing */
+.offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.offer-list{list-style:none}
+.offer-list li{
+  padding:16px 0 16px 38px;border-bottom:1.5px solid var(--rule);position:relative;font-size:.95rem;
+}
+.offer-list li::before{
+  content:"✓";position:absolute;left:4px;top:14px;color:var(--red);font-weight:700;font-size:1.1rem;
+}
+.offer-list li b{color:var(--ink)}
+.price-box{
+  border:2px solid var(--ink);background:var(--paper-dark);padding:40px 38px;
+  box-shadow:8px 8px 0 var(--ink);text-align:center;
+}
+.price-box .amount{font-family:var(--serif);font-size:4.6rem;font-weight:800;color:var(--red);line-height:1;letter-spacing:-.03em}
+.price-box .per{font-size:.8rem;text-transform:uppercase;letter-spacing:.15em;color:var(--ink-soft);margin-top:8px}
+.price-box .guarantee{margin-top:22px;font-size:.82rem;color:var(--ink-soft);border-top:1.5px dashed var(--rule);padding-top:20px;text-align:left}
+.price-box .guarantee b{color:var(--ink)}
+
+/* ============ order form ============ */
+.order{background:var(--paper-dark);border-top:2px solid var(--ink)}
+form{max-width:640px}
+.field{margin-bottom:26px}
+label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;font-weight:600;margin-bottom:9px}
+label .req{color:var(--red)}
+input,textarea{
+  width:100%;font-family:var(--mono);font-size:.95rem;color:var(--ink);
+  background:var(--paper);border:2px solid var(--ink);padding:14px 16px;outline:none;
+  transition:box-shadow .15s;
+}
+input:focus,textarea:focus{box-shadow:4px 4px 0 var(--red)}
+textarea{min-height:110px;resize:vertical}
+.form-note{font-size:.8rem;color:var(--ink-soft);margin:30px 0;border-left:3px solid var(--red);padding-left:14px}
+.faq{margin-top:70px;border-top:2px solid var(--ink);padding-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:34px 50px}
+.faq h4{font-family:var(--serif);font-size:1.05rem;font-weight:640;margin-bottom:8px}
+.faq p{font-size:.85rem;color:var(--ink-soft)}
+
+/* footer */
+footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;color:var(--ink-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .65s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:840px){
+  .stamp{display:none}
+  .steps{grid-template-columns:1fr}
+  .step{border-right:none;border-bottom:2px solid var(--ink)}
+  .step:last-child{border-bottom:none}
+  .insight-grid,.offer-grid,.faq{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#">Complaint<span class="dot">Scout</span><span class="dot">.</span></a>
+    <div class="bar-meta">25 warm leads · <b>$19</b> · 48h</div>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div class="stamp"><small>flat fee</small>$19<small>48h delivery</small></div>
+  <span class="kicker">For founders stuck at <em>$0 MRR</em></span>
+  <h1>Your first customers are already <span class="flame">complaining.</span></h1>
+  <p class="lede">Somewhere on Reddit, X and Hacker News, real people are publicly venting about the exact problem your SaaS solves. We find <b>25 of them from the last 90 days</b> and write you a first-draft DM for each. No ads budget. No "build an audience for 2 years". Just warm doors to knock on.</p>
+  <div class="hero-cta">
+    <a class="btn" href="#order">Get my 25 leads →</a>
+    <a class="btn btn-ghost" href="https://github.com/lgdlcs/complaintscout/blob/main/sample-report.md">See a real sample report</a>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>"12 upvotes on Product Hunt. 3 users from Reddit. HOW DO YOU PEOPLE MARKET THIS STUFF???" <span class="src">— r/microsaas</span></span>
+    <span>"built a SaaS, pivoted twice, still at $0 MRR" <span class="src">— r/SaaS</span></span>
+    <span>"Does the product suck, or did nobody simply see it? That uncertainty is mentally exhausting." <span class="src">— r/microsaas</span></span>
+    <span>"You just wrote my autobiography in this post" <span class="src">— r/microsaas</span></span>
+    <span>"I've been trying for YEARS to come up with a marketable idea" <span class="src">— r/microsaas</span></span>
+    <span>"12 upvotes on Product Hunt. 3 users from Reddit. HOW DO YOU PEOPLE MARKET THIS STUFF???" <span class="src">— r/microsaas</span></span>
+    <span>"built a SaaS, pivoted twice, still at $0 MRR" <span class="src">— r/SaaS</span></span>
+    <span>"Does the product suck, or did nobody simply see it? That uncertainty is mentally exhausting." <span class="src">— r/microsaas</span></span>
+    <span>"You just wrote my autobiography in this post" <span class="src">— r/microsaas</span></span>
+    <span>"I've been trying for YEARS to come up with a marketable idea" <span class="src">— r/microsaas</span></span>
+  </div>
+</div>
+
+<section class="wrap">
+  <div class="sec-label reveal">The method is proven</div>
+  <div class="insight-grid">
+    <blockquote class="pull reveal">
+      "What actually moved it was dm'ing 8 people a day who'd publicly complained twice about the same problem in the last 90 days… the ones who replied closed at ~20%."
+      <span class="pull-cite">— a founder who escaped $200 MRR, <a href="https://www.reddit.com/r/microsaas/comments/1to662l/how_the_fck_am_i_supposed_to_get_paid_users_for/oo2en1f/">r/microsaas, May 2026</a></span>
+    </blockquote>
+    <div class="insight-side reveal">
+      <span class="big">~20%</span>
+      close rate on replies, when you contact people <b>already angry about the problem</b> - versus shouting into directories and launch platforms.
+      <br><br>
+      The catch? Finding those people is <b>hours of manual digging per week</b>. That's the part we do for you.
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-label reveal">How it works</div>
+  <h2 class="reveal">Three steps. The hard one is ours.</h2>
+  <div class="steps reveal">
+    <div class="step">
+      <span class="step-no">01</span>
+      <h3>Tell us your pain point</h3>
+      <p>A 2-minute form: your product URL and the <b>exact problem it solves</b>. That phrasing is the search seed.</p>
+    </div>
+    <div class="step">
+      <span class="step-no">02</span>
+      <h3>We mine the complaints</h3>
+      <p>We scan Reddit, X and Hacker News for <b>unprompted public complaints</b> from the last 90 days, score each person's pain signal, and keep the 25 hottest.</p>
+    </div>
+    <div class="step">
+      <span class="step-no">03</span>
+      <h3>You knock on warm doors</h3>
+      <p>Within 48h you get the list: permalink, verbatim quote, signal score, and a <b>personalized DM draft</b> for each lead. Send 5 a day, adjust, repeat.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sample">
+  <div class="wrap">
+    <div class="sec-label reveal">What a lead looks like</div>
+    <h2 class="reveal">Real entry, real report. <em>Not a mockup.</em></h2>
+    <div class="lead-card reveal">
+      <div class="lead-head">
+        <span class="lead-user">Lead 4 — u/flmommens</span>
+        <span class="lead-sig">★★ signal · r/microsaas · 2026-05-28</span>
+      </div>
+      <p class="lead-quote">"You launch on Reddit, Product Hunt, X, Hacker News, directories… and then spend weeks wondering: 'Does the product suck, or did nobody simply see it?' That uncertainty is mentally exhausting."</p>
+      <div class="lead-dm">
+        <span class="dm-label">DM draft included</span>
+        Your line about "does the product suck, or did nobody see it" is the clearest description of the no-distribution trap I've read. You said you just launched a new SaaS - what is it? I'd like to show you a way to get a true signal…
+      </div>
+    </div>
+    <p class="sample-link reveal">Browse the full <a href="https://github.com/lgdlcs/complaintscout/blob/main/sample-report.md">10-lead sample report</a> - every permalink is live, every quote is verbatim.</p>
+  </div>
+</section>
+
+<section class="wrap" id="pricing">
+  <div class="sec-label reveal">The deal</div>
+  <h2 class="reveal">Less than your directory submission. <em>Warmer than any ad.</em></h2>
+  <div class="offer-grid">
+    <ul class="offer-list reveal">
+      <li><b>25 qualified leads</b> - people who publicly complained about your exact problem in the last 90 days</li>
+      <li><b>Two-signal priority</b> - we rank people who complained <b>twice</b> first (the ~20% close-rate profile)</li>
+      <li><b>A DM draft per lead</b> - written from their own words, in your product's voice</li>
+      <li><b>Permalink + verbatim quote + signal score</b> for every entry, re-checked the day of delivery</li>
+      <li><b>48h turnaround</b>, delivered as a clean document you can work through</li>
+    </ul>
+    <div class="price-box reveal">
+      <div class="amount">$19</div>
+      <div class="per">flat · one report · 48h</div>
+      <a class="btn" style="margin-top:26px" href="#order">Order my report →</a>
+      <p class="guarantee"><b>Pay only if it's useful:</b> we send the full report first with a payment link. If fewer than 20 leads feel relevant, don't pay. We keep the downside.</p>
+    </div>
+  </div>
+</section>
+
+<section class="order" id="order">
+  <div class="wrap">
+    <div class="sec-label reveal">Order</div>
+    <h2 class="reveal">Tell us what makes your users <em>angry.</em></h2>
+    <form action="https://formspree.io/f/xnjrlebb" method="POST" class="reveal">
+      <input type="hidden" name="_subject" value="[ComplaintScout] Nouvelle commande">
+      <div class="field">
+        <label for="email">Your email <span class="req">*</span></label>
+        <input type="email" id="email" name="email" required placeholder="founder@yoursaas.com">
+      </div>
+      <div class="field">
+        <label for="product">Product URL <span class="req">*</span></label>
+        <input type="url" id="product" name="product_url" required placeholder="https://yoursaas.com">
+      </div>
+      <div class="field">
+        <label for="pain">The exact problem your SaaS solves <span class="req">*</span></label>
+        <textarea id="pain" name="pain_point" required placeholder="e.g. 'freelancers waste hours chasing unpaid invoices' - the more specific the phrasing, the hotter the leads"></textarea>
+      </div>
+      <div class="field">
+        <label for="notes">Anything else? (ICP, channels you tried, tone for the DMs)</label>
+        <textarea id="notes" name="notes" placeholder="optional"></textarea>
+      </div>
+      <p class="form-note">No payment now. You'll get the full report within 48h with a $19 payment link - pay only if at least 20 of the 25 leads feel relevant to you.</p>
+      <button class="btn" type="submit">Send my order →</button>
+    </form>
+
+    <div class="faq">
+      <div>
+        <h4>Why not just use a scraping tool?</h4>
+        <p>Tools find keywords. We read threads, judge whether the person is actually in pain or just chatting, and only keep complaints a human would reply to. The DM drafts are written from each lead's own words.</p>
+      </div>
+      <div>
+        <h4>What if my niche is too small?</h4>
+        <p>If we can't find 25 strong leads, we'll tell you before starting - and that itself is a signal about your positioning, free of charge.</p>
+      </div>
+      <div>
+        <h4>Is DMing strangers spammy?</h4>
+        <p>Cold-pitching strangers is spam. Replying to someone's public cry for help with a relevant fix is service. Our drafts open with their problem, not your product.</p>
+      </div>
+      <div>
+        <h4>Who's behind this?</h4>
+        <p><a href="https://alt-tabstudio.fr">Alt-Tab Studio</a> - a small French web studio. We built the research pipeline for our own prospecting, then noticed founders needed it more than we did.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0 24px">
+    <span>© 2026 <a href="https://alt-tabstudio.fr">Alt-Tab Studio</a> · ComplaintScout</span>
+    <span>We find the people already asking for your product.</span>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
