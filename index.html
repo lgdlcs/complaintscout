@@ -25,6 +25,22 @@
   "offers": { "@type": "Offer", "price": "19", "priceCurrency": "USD" }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What is ComplaintScout?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A done-for-you research service: we find 25 people who publicly complained about the exact problem your SaaS solves (Reddit, X, Hacker News, last 90 days) and write a first-draft DM for each. $19, delivered in 48h." } },
+    { "@type": "Question", "name": "Is ComplaintScout free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The report is $19 flat, and you only pay after reading it if at least 20 of the 25 leads feel relevant. The Complaint Index and the first-users playbook are free." } },
+    { "@type": "Question", "name": "Why not just use a scraping tool?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Tools find keywords. We read threads, judge whether the person is actually in pain or just chatting, and only keep complaints a human would reply to. The DM drafts are written from each lead's own words." } },
+    { "@type": "Question", "name": "Who's behind ComplaintScout?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Alt-Tab Studio, a small French web studio. We built the research pipeline for our own prospecting, then noticed founders needed it more than we did." } }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -73,7 +89,8 @@ header{
 .bar-meta b{color:var(--red)}
 
 /* ============ hero ============ */
-.hero{padding:84px 0 64px;position:relative}
+.hero{padding:110px 0 185px;position:relative;text-align:center;perspective:1100px}
+.hero-inner{position:relative;z-index:2;max-width:760px;margin:0 auto}
 .kicker{
   display:inline-block;font-size:.75rem;text-transform:uppercase;letter-spacing:.18em;
   border:1.5px solid var(--ink);padding:5px 12px;margin-bottom:30px;
@@ -87,17 +104,35 @@ h1{
   font-variation-settings:"opsz" 144;
   line-height:1.02;
   letter-spacing:-.025em;
-  max-width:13ch;
+  max-width:15ch;
+  margin:0 auto;
   animation:rise .7s .15s cubic-bezier(.2,.7,.2,1) both;
 }
 h1 .flame{color:var(--red);font-style:italic;font-weight:640}
 .hero p.lede{
-  margin-top:30px;max-width:54ch;color:var(--ink-soft);font-size:1rem;
+  margin:30px auto 0;max-width:54ch;color:var(--ink-soft);font-size:1rem;
   animation:rise .7s .3s cubic-bezier(.2,.7,.2,1) both;
 }
 .hero p.lede b{color:var(--ink)}
-.hero-cta{margin-top:38px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+.hero-cta{margin-top:38px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:center;
   animation:rise .7s .45s cubic-bezier(.2,.7,.2,1) both;}
+.cta-sub{
+  margin-top:16px;font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);
+  animation:rise .7s .5s cubic-bezier(.2,.7,.2,1) both;
+}
+.cta-sub b{color:var(--red)}
+/* floating 3D complaint cards around the centered offer */
+.float-el{position:absolute;z-index:1;will-change:transform}
+.float-in{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.f-card{
+  width:225px;background:var(--paper);border:2px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);padding:14px 16px 15px;
+  font-size:.74rem;line-height:1.5;text-align:left;color:var(--ink);
+}
+.f-card.f-sm{width:180px}
+.f-src{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--red);font-weight:600;margin-bottom:6px}
+.f-dm{display:block;margin-top:9px;padding-top:8px;border-top:1.5px dashed var(--rule);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--red);font-weight:600}
+@media(max-width:1120px){.float-el{display:none}}
 .btn{
   display:inline-block;font-family:var(--mono);font-weight:600;font-size:.95rem;
   background:var(--red);color:var(--paper);text-decoration:none;
@@ -111,18 +146,55 @@ h1 .flame{color:var(--red);font-style:italic;font-weight:640}
 .btn-ghost:hover{box-shadow:4px 4px 0 var(--ink);color:var(--ink)}
 /* price stamp */
 .stamp{
-  position:absolute;top:70px;right:0;
   font-family:var(--serif);font-weight:800;font-size:2rem;color:var(--red);
-  border:3px solid var(--red);border-radius:50%;
+  border:3px solid var(--red);border-radius:50%;background:var(--paper);
   width:128px;height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  transform:rotate(9deg);line-height:1;gap:4px;
-  animation:stampIn .5s .7s cubic-bezier(.34,1.56,.64,1) both;
+  line-height:1;gap:4px;
   -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='r'%3E%3CfeTurbulence baseFrequency='.6' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .92 .08'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23r)'/%3E%3C/svg%3E");
   mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='r'%3E%3CfeTurbulence baseFrequency='.6' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .92 .08'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23r)'/%3E%3C/svg%3E");
 }
 .stamp small{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 @keyframes stampIn{from{opacity:0;transform:rotate(9deg) scale(1.6)}to{opacity:1;transform:rotate(9deg) scale(1)}}
+/* product meta chips (uneed-style listing facts) */
+.meta-chips{
+  margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;
+  animation:rise .7s .55s cubic-bezier(.2,.7,.2,1) both;
+}
+.chip{
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;
+  border:1.5px solid var(--rule);padding:5px 11px;color:var(--ink-soft);background:var(--paper-dark);
+}
+.chip b{color:var(--ink);font-weight:600}
+.chip.tag{border-color:var(--ink);background:transparent;text-transform:none;letter-spacing:.04em;color:var(--ink)}
+.chip.tag::before{content:"#";color:var(--red);font-weight:600}
+
+/* tab strip (uneed-style section tabs) */
+.tabstrip{
+  border-bottom:2px solid var(--ink);background:var(--paper);
+  position:sticky;top:0;z-index:50;
+}
+.tabstrip .wrap{display:flex;gap:0;overflow-x:auto}
+.tabstrip a{
+  font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;font-weight:600;
+  color:var(--ink-soft);text-decoration:none;padding:13px 18px;white-space:nowrap;
+  border-right:1.5px solid var(--rule);
+}
+.tabstrip a:first-child{padding-left:0}
+.tabstrip a:hover{color:var(--red)}
+
+/* overview */
+.overview-copy{max-width:68ch;color:var(--ink-soft);font-size:.95rem}
+.overview-copy p+p{margin-top:18px}
+.overview-copy b{color:var(--ink)}
+.features-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.2em;color:var(--red);font-weight:600;margin:38px 0 4px}
+
+/* about block (uneed-style SEO paragraph) */
+.about-box{
+  border:1.5px dashed var(--ink);padding:26px 30px;max-width:760px;
+  font-size:.88rem;color:var(--ink-soft);
+}
+.about-box b{color:var(--ink)}
 
 /* ============ complaint ticker ============ */
 .ticker{
@@ -137,7 +209,7 @@ h1 .flame{color:var(--red);font-style:italic;font-weight:640}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ============ sections ============ */
-section{padding:84px 0;position:relative}
+section{padding:84px 0;position:relative;scroll-margin-top:58px}
 .sec-label{
   font-size:.72rem;text-transform:uppercase;letter-spacing:.2em;color:var(--red);
   font-weight:600;margin-bottom:18px;
@@ -268,14 +340,20 @@ textarea{min-height:110px;resize:vertical}
 .faq p{font-size:.85rem;color:var(--ink-soft)}
 
 /* footer */
-footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;color:var(--ink-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer{border-top:2px solid var(--ink);padding:80px 0 44px;font-size:.78rem;color:var(--ink-soft)}
+.foot-big{
+  font-family:var(--serif);font-weight:560;font-size:clamp(1.7rem,3.8vw,2.7rem);
+  letter-spacing:-.02em;line-height:1.12;color:var(--ink);max-width:24ch;
+}
+.foot-big em{color:var(--red)}
+.foot-cta{margin:28px 0 60px}
+.foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1.5px dashed var(--rule);padding-top:24px}
 
 /* scroll reveal */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .65s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
 
 @media(max-width:840px){
-  .stamp{display:none}
   .steps{grid-template-columns:1fr}
   .step{border-right:none;border-bottom:2px solid var(--ink)}
   .step:last-child{border-bottom:none}
@@ -294,16 +372,59 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
 </header>
 
 <section class="hero wrap">
-  <div class="stamp"><small>flat fee</small>$19<small>48h delivery</small></div>
+  <div class="float-el" style="top:96px;left:-14px" data-depth="20" aria-hidden="true">
+    <div class="f-card float-in" style="rotate:-5deg;animation-delay:.65s">
+      <span class="f-src">r/SaaS · 14d ago</span>
+      "built a SaaS, pivoted twice, still at $0 MRR"
+    </div>
+  </div>
+  <div class="float-el" style="bottom:34px;left:36px" data-depth="12" aria-hidden="true">
+    <div class="f-card f-sm float-in" style="rotate:3deg;animation-delay:.85s">
+      <span class="f-src">r/microsaas</span>
+      "HOW DO YOU PEOPLE MARKET THIS STUFF???"
+    </div>
+  </div>
+  <div class="float-el" style="top:88px;right:-10px" data-depth="16" aria-hidden="true">
+    <div class="f-card float-in" style="rotate:4deg;animation-delay:.75s">
+      <span class="f-src">r/microsaas · ★★ signal</span>
+      "Does the product suck, or did nobody simply see it?"
+      <span class="f-dm">DM draft included →</span>
+    </div>
+  </div>
+  <div class="float-el" style="bottom:26px;right:52px" data-depth="26" aria-hidden="true">
+    <div class="stamp float-in" style="rotate:9deg;animation-delay:.95s"><small>flat fee</small>$19<small>48h delivery</small></div>
+  </div>
+
+  <div class="hero-inner">
   <span class="kicker">For founders stuck at <em>$0 MRR</em></span>
   <h1>Your first customers are already <span class="flame">complaining.</span></h1>
   <p class="lede">Somewhere on Reddit, X and Hacker News, real people are publicly venting about the exact problem your SaaS solves. We find <b>25 of them from the last 90 days</b> and write you a first-draft DM for each. No ads budget. No "build an audience for 2 years". Just warm doors to knock on.</p>
   <div class="hero-cta">
     <a class="btn" href="#order">Get my 25 leads →</a>
-    <a class="btn btn-ghost" href="#back">Back the launch — founder terms</a>
-    <a class="btn btn-ghost" href="https://github.com/lgdlcs/complaintscout/blob/master/sample-report.md">See a real sample report</a>
+  </div>
+  <p class="cta-sub"><b>$19 flat</b> · delivered in 48h · pay only if it's useful</p>
+  <div class="meta-chips" aria-label="Product facts">
+    <span class="chip">Launched <b>June 2026</b></span>
+    <span class="chip">Category <b>Marketing</b></span>
+    <span class="chip">Pricing <b>$19 flat</b></span>
+    <span class="chip">By <b>Alt-Tab Studio</b></span>
+    <span class="chip tag">lead-generation</span>
+    <span class="chip tag">reddit</span>
+    <span class="chip tag">cold-outreach</span>
+    <span class="chip tag">founders</span>
+  </div>
   </div>
 </section>
+
+<nav class="tabstrip" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#overview">Overview</a>
+    <a href="#sample">Sample</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#back">Back the launch</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
 
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
@@ -319,6 +440,23 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
     <span>"I've been trying for YEARS to come up with a marketable idea" <span class="src">— r/microsaas</span></span>
   </div>
 </div>
+
+<section class="wrap" id="overview">
+  <div class="sec-label reveal">Overview</div>
+  <h2 class="reveal">A research service, <em>not another scraping tool.</em></h2>
+  <div class="overview-copy reveal">
+    <p>ComplaintScout is a done-for-you lead research service for SaaS founders stuck at $0 MRR. Instead of ads, directories or "building an audience", we mine <b>Reddit, X and Hacker News</b> for people who publicly complained about the exact problem your product solves in the <b>last 90 days</b>. Every thread is read by a human: we judge whether the person is actually in pain or just chatting, score the signal, and keep only the <b>25 hottest leads</b>.</p>
+    <p>Each report ships in <b>48 hours</b> with a permalink, the verbatim quote, a signal score, and a <b>personalized DM draft written from the lead's own words</b> — the approach a founder documented at a <b>~20% close rate on replies</b>. One flat <b>$19</b>, and you only pay after reading the report if at least 20 of the 25 leads feel relevant.</p>
+  </div>
+  <div class="features-label reveal">Features</div>
+  <ul class="offer-list reveal" style="max-width:760px">
+    <li><b>25 qualified leads</b> - people who publicly complained about your exact problem in the last 90 days</li>
+    <li><b>Two-signal priority</b> - we rank people who complained <b>twice</b> first (the ~20% close-rate profile)</li>
+    <li><b>A DM draft per lead</b> - written from their own words, in your product's voice</li>
+    <li><b>Permalink + verbatim quote + signal score</b> for every entry, re-checked the day of delivery</li>
+    <li><b>48h turnaround</b>, delivered as a clean document you can work through</li>
+  </ul>
+</section>
 
 <section class="wrap">
   <div class="sec-label reveal">The method is proven</div>
@@ -358,7 +496,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
   </div>
 </section>
 
-<section class="sample">
+<section class="sample" id="sample">
   <div class="wrap">
     <div class="sec-label reveal">What a lead looks like</div>
     <h2 class="reveal">Real entry, real report. <em>Not a mockup.</em></h2>
@@ -381,13 +519,10 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
   <div class="sec-label reveal">The deal</div>
   <h2 class="reveal">Less than your directory submission. <em>Warmer than any ad.</em></h2>
   <div class="offer-grid">
-    <ul class="offer-list reveal">
-      <li><b>25 qualified leads</b> - people who publicly complained about your exact problem in the last 90 days</li>
-      <li><b>Two-signal priority</b> - we rank people who complained <b>twice</b> first (the ~20% close-rate profile)</li>
-      <li><b>A DM draft per lead</b> - written from their own words, in your product's voice</li>
-      <li><b>Permalink + verbatim quote + signal score</b> for every entry, re-checked the day of delivery</li>
-      <li><b>48h turnaround</b>, delivered as a clean document you can work through</li>
-    </ul>
+    <div class="overview-copy reveal">
+      <p>Everything in the <a href="#overview">features list</a> is included in every report — there's one product, one price, no tiers to compare. The only decision is whether your pain point is specific enough; if it isn't, we'll tell you before starting.</p>
+      <p style="margin-top:18px">Want better terms? The <a href="#back">founding campaign</a> locks founder pricing for life until June 24.</p>
+    </div>
     <div class="price-box reveal">
       <div class="amount">$19</div>
       <div class="per">flat · one report · 48h</div>
@@ -496,32 +631,61 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;font-size:.78rem;colo
       <button class="btn" type="submit">Pledge — $0 today →</button>
     </form>
 
-    <div class="faq">
-      <div>
-        <h4>Why not just use a scraping tool?</h4>
-        <p>Tools find keywords. We read threads, judge whether the person is actually in pain or just chatting, and only keep complaints a human would reply to. The DM drafts are written from each lead's own words.</p>
-      </div>
-      <div>
-        <h4>What if my niche is too small?</h4>
-        <p>If we can't find 25 strong leads, we'll tell you before starting - and that itself is a signal about your positioning, free of charge.</p>
-      </div>
-      <div>
-        <h4>Is DMing strangers spammy?</h4>
-        <p>Cold-pitching strangers is spam. Replying to someone's public cry for help with a relevant fix is service. Our drafts open with their problem, not your product.</p>
-      </div>
-      <div>
-        <h4>Who's behind this?</h4>
-        <p><a href="https://alt-tabstudio.fr">Alt-Tab Studio</a> - a small French web studio. We built the research pipeline for our own prospecting, then noticed founders needed it more than we did.</p>
-      </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-label reveal">About</div>
+  <div class="about-box reveal">
+    <b>About ComplaintScout.</b> ComplaintScout is a <b>lead research service for SaaS founders</b> by
+    <a href="https://alt-tabstudio.fr">Alt-Tab Studio</a>, a small French web studio. It's a paid product
+    ($19 flat per report) in the marketing / lead-generation category. Browse the
+    <a href="samples.html">sample reports</a>, the free
+    <a href="complaint-index/">Complaint Index</a> of scored public complaints, or the
+    <a href="https://github.com/lgdlcs/first-users-playbook">first-users playbook</a> to see the method in the open.
+  </div>
+</section>
+
+<section class="wrap" id="faq" style="padding-top:0">
+  <div class="sec-label reveal">FAQ</div>
+  <h2 class="reveal">Frequently asked questions <em>about ComplaintScout.</em></h2>
+  <div class="faq" style="margin-top:0;border-top:none;padding-top:0">
+    <div>
+      <h4>What is ComplaintScout?</h4>
+      <p>A done-for-you research service: we find 25 people who publicly complained about the exact problem your SaaS solves (Reddit, X, Hacker News, last 90 days) and write a first-draft DM for each. $19, delivered in 48h.</p>
+    </div>
+    <div>
+      <h4>Is ComplaintScout free?</h4>
+      <p>The report is $19 flat - and you only pay after reading it, if at least 20 of the 25 leads feel relevant. The <a href="complaint-index/">Complaint Index</a> and the <a href="https://github.com/lgdlcs/first-users-playbook">playbook</a> are free.</p>
+    </div>
+    <div>
+      <h4>Why not just use a scraping tool?</h4>
+      <p>Tools find keywords. We read threads, judge whether the person is actually in pain or just chatting, and only keep complaints a human would reply to. The DM drafts are written from each lead's own words.</p>
+    </div>
+    <div>
+      <h4>What if my niche is too small?</h4>
+      <p>If we can't find 25 strong leads, we'll tell you before starting - and that itself is a signal about your positioning, free of charge.</p>
+    </div>
+    <div>
+      <h4>Is DMing strangers spammy?</h4>
+      <p>Cold-pitching strangers is spam. Replying to someone's public cry for help with a relevant fix is service. Our drafts open with their problem, not your product.</p>
+    </div>
+    <div>
+      <h4>Who's behind ComplaintScout?</h4>
+      <p><a href="https://alt-tabstudio.fr">Alt-Tab Studio</a> - a small French web studio. We built the research pipeline for our own prospecting, then noticed founders needed it more than we did.</p>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0 24px">
-    <span>© 2026 <a href="https://alt-tabstudio.fr">Alt-Tab Studio</a> · ComplaintScout</span>
-    <span><a href="samples.html">Sample reports</a> · <a href="complaint-index/">Complaint Index</a> · <a href="https://github.com/lgdlcs/first-users-playbook">Free playbook</a></span>
-    <span>We find the people already asking for your product.</span>
+  <div class="wrap">
+    <p class="foot-big reveal">Right now, someone is publicly complaining about the problem <em>you already solved.</em></p>
+    <p class="foot-cta reveal"><a class="btn" href="#order">Go answer them →</a></p>
+    <div class="foot-row">
+      <span>© 2026 <a href="https://alt-tabstudio.fr">Alt-Tab Studio</a> · ComplaintScout</span>
+      <span><a href="samples.html">Sample reports</a> · <a href="complaint-index/">Complaint Index</a> · <a href="https://github.com/lgdlcs/first-users-playbook">Free playbook</a></span>
+      <span>We find the people already asking for your product.</span>
+    </div>
   </div>
 </footer>
 
@@ -532,6 +696,22 @@ document.querySelectorAll('[data-tier]').forEach(a=>a.addEventListener('click',(
   const r=document.querySelector(`input[name="tier"][value^="${a.dataset.tier}"]`);
   if(r)r.checked=true;
 }));
+// subtle 3D mouse parallax on hero floaters
+const floats=document.querySelectorAll('.float-el');
+if(floats.length
+  && matchMedia('(pointer:fine)').matches
+  && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+  let tx=0,ty=0,cx=0,cy=0;
+  addEventListener('mousemove',e=>{tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5},{passive:true});
+  (function drift(){
+    cx+=(tx-cx)*.055;cy+=(ty-cy)*.055;
+    floats.forEach(f=>{
+      const d=+f.dataset.depth||16;
+      f.style.transform=`translate3d(${(-cx*d).toFixed(2)}px,${(-cy*d).toFixed(2)}px,0) rotateY(${(cx*5).toFixed(2)}deg) rotateX(${(-cy*5).toFixed(2)}deg)`;
+    });
+    requestAnimationFrame(drift);
+  })();
+}
 </script>
 </body>
 </html>
